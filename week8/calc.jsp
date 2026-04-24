@@ -43,12 +43,13 @@
         }
     }
 
-    request.setAttribute("num1Str", num1Str);
-    request.setAttribute("num2Str", num2Str);
-    request.setAttribute("operator", operator);
-    request.setAttribute("result", result);
-    request.setAttribute("errorMessage", errorMessage);
-
-    RequestDispatcher dispatcher = request.getRequestDispatcher("result.jsp");
-    dispatcher.forward(request, response);
+    String resultStr = (result == null) ? "" : String.valueOf(result);
+    String errorMessageStr = (errorMessage == null) ? "" : errorMessage;
 %>
+<jsp:forward page="result.jsp">
+    <jsp:param name="num1Str" value="<%= num1Str %>" />
+    <jsp:param name="num2Str" value="<%= num2Str %>" />
+    <jsp:param name="operator" value="<%= operator %>" />
+    <jsp:param name="result" value="<%= resultStr %>" />
+    <jsp:param name="errorMessage" value="<%= errorMessageStr %>" />
+</jsp:forward>

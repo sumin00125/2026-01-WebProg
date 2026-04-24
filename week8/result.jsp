@@ -1,10 +1,14 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
-    String num1Str = (String) request.getAttribute("num1Str");
-    String num2Str = (String) request.getAttribute("num2Str");
-    String operator = (String) request.getAttribute("operator");
-    Double result = (Double) request.getAttribute("result");
-    String errorMessage = (String) request.getAttribute("errorMessage");
+    String num1Str = request.getParameter("num1Str");
+    String num2Str = request.getParameter("num2Str");
+    String operator = request.getParameter("operator");
+    String result = request.getParameter("result");
+    String errorMessage = request.getParameter("errorMessage");
+
+    if (errorMessage != null && errorMessage.trim().isEmpty()) {
+        errorMessage = null;
+    }
 %>
 <!DOCTYPE html>
 <html lang="ko">
