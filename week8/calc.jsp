@@ -53,3 +53,4 @@
     <jsp:param name="result" value="<%= resultStr %>" />
     <jsp:param name="errorMessage" value="<%= errorMessageStr %>" />
 </jsp:forward>
+//확인용
