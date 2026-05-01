@@ -9,7 +9,7 @@
 <body>
     <h1>계산기 입력</h1>
 
-    <form action="calc.jsp" method="post" accept-charset="UTF-8">
+    <form action="calcControl" method="post" accept-charset="UTF-8">
         <p>
             <label for="n1">첫 번째 숫자</label>
             <input type="number" id="n1" name="n1" step="any" required />

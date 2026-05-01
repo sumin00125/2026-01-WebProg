@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.lang.reflect.Field" %>
+<%
+    response.setCharacterEncoding("UTF-8");
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -22,17 +24,9 @@
             double n1 = Double.parseDouble(s1);
             double n2 = Double.parseDouble(s2);
 
-            Field n1Field = calculator.getClass().getDeclaredField("n1");
-            n1Field.setAccessible(true);
-            n1Field.set(calculator, n1);
-
-            Field n2Field = calculator.getClass().getDeclaredField("n2");
-            n2Field.setAccessible(true);
-            n2Field.set(calculator, n2);
-
-            Field opField = calculator.getClass().getDeclaredField("op");
-            opField.setAccessible(true);
-            opField.set(calculator, op);
+            calculator.setN1(n1);
+            calculator.setN2(n2);
+            calculator.setOp(op);
 
             double result = calculator.calc();
     %>
@@ -52,4 +46,4 @@
     <p><a href="index.jsp">다시 계산하기</a></p>
 </body>
 </html>
-//<
+
