@@ -11,7 +11,7 @@
 - EL로 동일한 내용을 출력하는 방법을 함께 비교했다.
 - 문자열 배열과 숫자 배열을 만들어 `forEach`로 출력하는 방법을 확인했다.
 
-## 2026년 5월 1일
+## 2026년 4월 30일
 
 ### 학습 내용
 - `CalcController` 서블릿을 만들어 `calcControl` 요청을 처리하고, `BeanUtils.populate()`로 `Calculator` 객체를 채우는 MVC 흐름을 구현했다.
