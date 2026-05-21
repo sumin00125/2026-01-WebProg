@@ -10,6 +10,7 @@
     <ul>
         <li><a href="<%= request.getContextPath() %>/student/list">학생 목록</a></li>
         <li><a href="<%= request.getContextPath() %>/student/form">학생 등록</a></li>
+        <li><a href="<%= request.getContextPath() %>/news/list">NewsMVC 목록</a></li>
         <li><a href="student-class-diagram.png">클래스 다이어그램 보기</a></li>
     </ul>
 </body>

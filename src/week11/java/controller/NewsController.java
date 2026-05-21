@@ -4,33 +4,25 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import bean_exam.Student;
-import dao.StudentDAO;
 import org.apache.commons.beanutils.BeanUtils;
 
-@WebServlet("/student/*")
-public class StudentController extends HttpServlet {
+import bean_exam.News;
+import bean_exam.NewsService;
+
+@WebServlet("/news/*")
+public class NewsController extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private StudentDAO dao;
+    private NewsService newsService;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        dao = new StudentDAO();
-        dao.connect();
-    }
-
-    @Override
-    public void destroy() {
-        dao.close();
-        super.destroy();
+    public void init() throws ServletException {
+        newsService = new NewsService();
     }
 
     @Override
@@ -63,21 +55,21 @@ public class StudentController extends HttpServlet {
                     detail(request, response);
                     break;
                 default:
-                    response.sendRedirect(request.getContextPath() + "/student/list");
+                    response.sendRedirect(request.getContextPath() + "/news/list");
                     break;
             }
         } catch (Exception e) {
             request.setAttribute("error", e.getMessage());
-            request.setAttribute("backUrl", request.getContextPath() + "/student/list");
+            request.setAttribute("backUrl", request.getContextPath() + "/news/list");
             RequestDispatcher rd = request.getRequestDispatcher("/week11/error.jsp");
             rd.forward(request, response);
         }
     }
 
     private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Student> students = dao.getAll();
-        request.setAttribute("students", students);
-        RequestDispatcher rd = request.getRequestDispatcher("/week11/studentInfo.jsp");
+        List<News> newsList = newsService.findAll();
+        request.setAttribute("newsList", newsList);
+        RequestDispatcher rd = request.getRequestDispatcher("/week11/newsList.jsp");
         rd.forward(request, response);
     }
 
@@ -86,9 +78,9 @@ public class StudentController extends HttpServlet {
         if (idStr != null && !idStr.isEmpty()) {
             try {
                 int id = Integer.parseInt(idStr);
-                Student student = dao.findById(id);
-                if (student != null) {
-                    request.setAttribute("student", student);
+                News news = newsService.find(id);
+                if (news != null) {
+                    request.setAttribute("news", news);
                     request.setAttribute("mode", "edit");
                 }
             } catch (Exception e) {
@@ -98,17 +90,17 @@ public class StudentController extends HttpServlet {
             request.setAttribute("mode", "add");
         }
 
-        RequestDispatcher rd = request.getRequestDispatcher("/week11/studentForm.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/week11/newsForm.jsp");
         rd.forward(request, response);
     }
 
     private void insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            Student s = new Student();
-            BeanUtils.populate(s, request.getParameterMap());
+            News news = new News();
+            BeanUtils.populate(news, request.getParameterMap());
 
-            dao.insert(s);
-            response.sendRedirect(request.getContextPath() + "/student/list");
+            int id = newsService.add(news);
+            response.sendRedirect(request.getContextPath() + "/news/detail?id=" + id);
         } catch (Exception e) {
             throw new ServletException(e);
         }
@@ -116,14 +108,14 @@ public class StudentController extends HttpServlet {
 
     private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            Student s = new Student();
-            BeanUtils.populate(s, request.getParameterMap());
+            News news = new News();
+            BeanUtils.populate(news, request.getParameterMap());
 
-            boolean updated = dao.update(s);
+            boolean updated = newsService.update(news);
             if (updated) {
-                response.sendRedirect(request.getContextPath() + "/student/list");
+                response.sendRedirect(request.getContextPath() + "/news/detail?id=" + news.getId());
             } else {
-                throw new ServletException("학생 수정 실패");
+                throw new ServletException("뉴스 수정 실패");
             }
         } catch (Exception e) {
             throw new ServletException(e);
@@ -134,14 +126,14 @@ public class StudentController extends HttpServlet {
         try {
             String idStr = request.getParameter("id");
             if (idStr == null || idStr.isEmpty()) {
-                throw new ServletException("삭제할 학생 ID가 없습니다.");
+                throw new ServletException("삭제할 뉴스 ID가 없습니다.");
             }
             int id = Integer.parseInt(idStr);
-            boolean deleted = dao.delete(id);
+            boolean deleted = newsService.delete(id);
             if (deleted) {
-                response.sendRedirect(request.getContextPath() + "/student/list");
+                response.sendRedirect(request.getContextPath() + "/news/list");
             } else {
-                throw new ServletException("학생 삭제 실패");
+                throw new ServletException("뉴스 삭제 실패");
             }
         } catch (Exception e) {
             throw new ServletException(e);
@@ -152,17 +144,16 @@ public class StudentController extends HttpServlet {
         String idStr = request.getParameter("id");
         try {
             int id = Integer.parseInt(idStr);
-            Student s = dao.findById(id);
-            if (s != null) {
-                request.setAttribute("student", s);
-                request.setAttribute("mode", "edit");
-                RequestDispatcher rd = request.getRequestDispatcher("/week11/studentForm.jsp");
+            News news = newsService.find(id);
+            if (news != null) {
+                request.setAttribute("news", news);
+                RequestDispatcher rd = request.getRequestDispatcher("/week11/newsDetail.jsp");
                 rd.forward(request, response);
                 return;
             }
         } catch (Exception e) {
-            // ignore parse
+            // ignore parse error and fall through to redirect
         }
-        response.sendRedirect(request.getContextPath() + "/student/list");
+        response.sendRedirect(request.getContextPath() + "/news/list");
     }
 }
