@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.sumin00125</groupId>
-    <artifactId>2026-01-webprog</artifactId>
+    <artifactId>product_rest_13</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>2026-01-WebProg</name>
-    <description>Week 12 ServletContextListener practice project</description>
+    <name>product_rest_13</name>
+    <description>Week 13 Product_Rest practice project</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -23,6 +23,16 @@
             <artifactId>javax.servlet-api</artifactId>
             <version>4.0.1</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet-core</artifactId>
+            <version>2.41</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>2.41</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet.jsp</groupId>
@@ -48,10 +58,10 @@
     </dependencies>
 
     <build>
-        <sourceDirectory>${project.basedir}/src/week12/2. SessionListener/java</sourceDirectory>
+        <sourceDirectory>${project.basedir}/src/week13</sourceDirectory>
         <resources>
             <resource>
-                <directory>${project.basedir}/src/week12/2. SessionListener/java</directory>
+                <directory>${project.basedir}/src/week13</directory>
                 <excludes>
                     <exclude>**/*.java</exclude>
                 </excludes>
@@ -72,7 +82,8 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.4.0</version>
                 <configuration>
-                    <warSourceDirectory>${project.basedir}/src/week12/2. SessionListener</warSourceDirectory>
+                    <finalName>product_rest_13</finalName>
+                    <warSourceDirectory>${project.basedir}/src/week13</warSourceDirectory>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
